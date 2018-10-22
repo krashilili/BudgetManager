@@ -1,0 +1,78 @@
+{% extends parent_template|default:"upload/base_upload.html" %}
+
+{% load static %}
+
+{% block title %}Basic Upload{% endblock %}
+
+
+{% block javascript %}
+  {# JQUERY FILE UPLOAD SCRIPTS #}
+  <script src="{% static 'js/jquery-file-upload/vendor/jquery.ui.widget.js' %}"></script>
+  <script src="{% static 'js/jquery-file-upload/jquery.iframe-transport.js' %}"></script>
+  <script src="{% static 'js/jquery-file-upload/jquery.fileupload.js' %}"></script>
+
+  {# PHOTOS PAGE SCRIPTS #}
+  <script src="{% static 'upload/js/basic-upload.js' %}"></script>
+{% endblock %}
+
+{% block bs_content %}
+    <form action="{% url 'basic_upload' %}"
+          method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">
+            Upload Bankstatement
+        </button>
+    </form>
+
+    {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+{#  <div style="margin-bottom: 20px;">#}
+{#    <button type="button" class="btn btn-primary js-upload-photos">#}
+{#      <span class="glyphicon glyphicon-cloud-upload"></span> Upload bank statements#}
+{#    </button>#}
+{##}
+{#    <select name="bank-dropdown">Banks#}
+{#        <option selected="selected" disabled>Select a Bank</option>#}
+{#        <option value="discover">Discover</option>#}
+{#        <option value="chase">Chase</option>#}
+{#        <option value="wellsfargo">Wells Fargo </option>#}
+{#    </select>#}
+{##}
+{#    <input id="fileupload" type="file" name="bank-statements" multiple#}
+{#           style="display: none;"#}
+{#           data-url="{% url 'basic_upload' %}"#}
+{#           data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>#}
+{##}
+{#  </div>#}
+{##}
+{##}
+{##}
+{#  <table id="gallery" class="table table-bordered">#}
+{#    <thead>#}
+{#      <tr>#}
+{#        <th>Photo</th>#}
+{#      </tr>#}
+{#    </thead>#}
+{#    <tbody>#}
+{#      {% for photo in photos %}#}
+{#        <tr>#}
+{#          <td><a href="{{ photo.file.url }}">{{ photo.file.name }}</a></td>#}
+{#        </tr>#}
+{#      {% endfor %}#}
+{#    </tbody>#}
+{#  </table>#}
+
+{% endblock %}
