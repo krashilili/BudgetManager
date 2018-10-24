@@ -9,7 +9,7 @@ class BankStatementDocument(models.Model):
     owner = models.CharField(max_length=255)
     bank = models.CharField(max_length=255, blank=True)
     file = models.FileField(upload_to='doc/', blank=True)
-    uploaded_at = models.DateTimeField(editable=False, default=timezone.now())
+    uploaded_at = models.DateTimeField(editable=False)
     slug = models.SlugField(max_length=63, unique=True, blank=True)
 
     def __str__(self):
@@ -51,6 +51,36 @@ class BankStatement(models.Model):
     amount = models.CharField('Amount', max_length=30)
     category = models.CharField('Category',max_length=30)
     statement_source = models.CharField(max_length=200,null=True)
+    ## todo on 10/24/2018: define customized slug to avoid duplicates
+    # slug = models.CharField(max_length=63, blank=True)
+
+    # def _get_unique_slug(self):
+    #     """
+    #     Create a unique slug for the bank statement doc
+    #     :return:
+    #     """
+    #     text = f"{self.date} {self.bank_name} {self.amount} {self.description[:4]}"
+    #     slug = slugify(text)
+    #     unique_slug = slug
+    #     # num = 1
+    #     # while BankStatementDocument.objects.filter(slug=unique_slug).exists():
+    #     #     unique_slug = '{}-{}'.format(slug, num)
+    #     #     num += 1
+    #     return unique_slug
+    #
+    # def save(self, *args, **kwargs):
+    #     slug = f"{self.date} {self.bank_name} {self.amount} {self.description[:4]}"
+    #     if BankStatementDocument.objects.filter(slug=slug).exists():
+    #         print("The bank statement already exists!")
+    #         return None
+    #
+    #     if not self.slug:
+    #         self.slug = self._get_unique_slug()
+    #     # on save, update timestamps
+    #     # if not self.id:
+    #     #     self.uploaded_at = timezone.now()
+    #
+    #     return super().save(*args, **kwargs)
 
     def __unicode__(self):
         return f"{self.owner}: {self.bank_name}- {self.statement_source}"

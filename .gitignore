@@ -1,3 +1,6 @@
 media/
 .idea/
 db.sqlite3
+.csv
+upload/__pycache__/*
+upload/migrations/__pycache__/*

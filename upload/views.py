@@ -54,8 +54,9 @@ class BasicUploadView(View):
             doc_instance = bound_form.save()
             # instantiate bank statement
             bank_statement_resource = BankStatementResource()
-            handle_bank_statement(request.FILES['file'], bank_statement_resource, doc_instance)
-            return HttpResponse('image upload success')
+            if bank_statement_resource:
+                handle_bank_statement(request.FILES['file'], bank_statement_resource, doc_instance)
+            return HttpResponse('statements upload success')
         else:
             return render(request=request,
                           template_name=self.template_name,
