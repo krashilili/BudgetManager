@@ -4,3 +4,5 @@ db.sqlite3
 .csv
 upload/__pycache__/*
 upload/migrations/__pycache__/*
+BudgetManager/__pycache__/*
+BudgetManager/__pycache__/settings.cpython-36.pyc

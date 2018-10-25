@@ -21,7 +21,7 @@ def handle_bank_statement(f, resource_instance, doc_instance):
         data = StringIO(s)
         df = pd.read_csv(data)
         df.columns = ['date', 'post', 'description', 'amount', 'category']
-        df['id'] = None
+        # df['id'] = None
         df['owner'] = doc_instance.owner
         df['bank_name'] = doc_instance.bank
         df['statement_source'] = doc_instance.slug
