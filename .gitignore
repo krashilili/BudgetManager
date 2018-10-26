@@ -5,4 +5,5 @@ db.sqlite3
 upload/__pycache__/*
 upload/migrations/__pycache__/*
 BudgetManager/__pycache__/*
+api/__pycache__/*
 BudgetManager/__pycache__/settings.cpython-36.pyc

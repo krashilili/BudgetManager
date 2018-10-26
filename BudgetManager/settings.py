@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'upload',
     'api',
     'import_export',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

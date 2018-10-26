@@ -1,0 +1,2 @@
+django-import-export==1.1.0
+django-rest-framework==3.9.0
