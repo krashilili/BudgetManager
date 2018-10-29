@@ -6,6 +6,7 @@ from upload.models import BankStatement
 from rest_framework import viewsets, generics
 from rest_framework.response import Response
 from rest_framework.views import status
+import datetime as dt
 
 
 
@@ -38,9 +39,9 @@ class BankStatementListView(generics.ListAPIView):
 
 class BankStatementDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
-    GET bs/:id/
-    PUT songs/:id/
-    DELETE songs/:id/
+    GET bs/:date/
+    PUT bs/:date/
+    DELETE bs/:date/
     """
     #
     serializer_class = BankStatementSerializer
@@ -48,36 +49,16 @@ class BankStatementDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get(self, request, *args, **kwargs):
         try:
-            a_song = self.queryset.get(pk=kwargs["pk"])
-            return Response(BankStatementSerializer(a_song).data)
+            # query the bank statements by transaction date
+            trans_date = dt.datetime.strptime(kwargs['date'],'%Y-%m-%d')
+            # post_date_ns = '{0.month}/{0.day}/{0.year}'.format(post_date)
+            bs = BankStatement.objects.filter(date=trans_date)
+            return Response(BankStatementSerializer(bs, many=True).data)
         except BankStatement.DoesNotExist:
             return Response(
                 data={
-                    "message": "Song with id: {} does not exist".format(kwargs["pk"])
+                    "message": "Bankstatement with id: {} does not exist".format(kwargs["pk"])
                 },
                 status=status.HTTP_404_NOT_FOUND
             )
-    #
-    # def get_object(self):
-    #     """
-    #     This view should return a list of all the bankstatements
-    #     on the date portion of the URL.
-    #     :return:
-    #     """
-    #     #
-    #     date = self.request.query_params.get('date')
-    #     queryset = self.filter_queryset(self.get_queryset())
-    #     obj = queryset.get(pk=self.request.)
-    #     return queryset
-    #
-    #     # try:
-    #     #     bankstatement = queryset.get(id=self.kwargs['id'])
-    #     #     # return bankstatement
-    #     #     return Response(BankStatementSerializer(bankstatement).data)
-    #     # except BankStatement.DoesNotExist:
-    #     #     return Response(
-    #     #         data={
-    #     #             "message": "BankStatement with id: {} does not exist".format(self.kwargs["id"])
-    #     #         },
-    #     #         status=status.HTTP_404_NOT_FOUND
-    #     #     )
+

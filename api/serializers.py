@@ -6,4 +6,4 @@ class BankStatementSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.BankStatement
         fields = '__all__'
-        lookup_field = 'date'
+        # lookup_field = 'date'
