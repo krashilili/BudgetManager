@@ -1,9 +1,8 @@
-from django.urls import path
-from .views import RetrieveBankStatementListView
-from rest_framework.urlpatterns import format_suffix_patterns
+from django.urls import path, include
+from api.views import BankStatementListView, BankStatementDetailView
 
-urlpatterns = {
-    path('bslist/', RetrieveBankStatementListView.as_view({'get': 'list'}), name='details')
-}
 
-# urlpatterns = format_suffix_patterns(urlpatterns)
+urlpatterns = [
+    path('bs/', BankStatementListView.as_view(), name='bankstatements'),
+    path('bs/<int:pk>/', BankStatementDetailView.as_view(), name='bankstatements-detail' ),
+]
