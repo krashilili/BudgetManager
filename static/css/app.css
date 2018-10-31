@@ -1,0 +1,22 @@
+.axis {
+  font: 14px sans-serif;
+}
+
+.line {
+  fill: none;
+  stroke: orange;
+  stroke-width: 2px;
+}
+
+.tooltip {
+  position: absolute;
+  width: 80px;
+  height: 50px;
+  padding: 10px;
+  font: 12px sans-serif;
+  text-align: center;
+  color: black;
+  background: blue;
+  border: 0;
+  border-radius: 10px;
+}

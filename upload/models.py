@@ -61,6 +61,10 @@ class BankStatement(models.Model):
         text = f"{self.date} {self.bank_name} {self.amount} {self.description[:4]}"
         slug = slugify(text)
         unique_slug = slug
+        num = 1
+        while BankStatement.objects.filter(slug=unique_slug).exists():
+            unique_slug = '{}-{}'.format(slug, num)
+            num += 1
         return unique_slug
 
     def save(self, *args, **kwargs):
