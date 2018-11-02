@@ -1,17 +1,13 @@
-var svgWidth = 1500;
-var svgHeight = 500;
-
 // When the browser window is resized, makeResponsive() is called.
 d3.select(window).on("resize", makeResponsive);
 
 // When the browser loads, makeResponsive() is called.
 makeResponsive();
 
+
 // The code for the chart is wrapped inside a function that
 // automatically resizes the chart
 function makeResponsive() {
-
-    // if the SVG area isn't empty when the browser loads,
     // remove it and replace it with a resized version of the chart
     var svgArea = d3.select("body").select("svg");
 
@@ -46,6 +42,8 @@ function makeResponsive() {
     var chartGroup = svg.append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
+    // Configure a parseTime function which will return a new Date object from a string
+    var parseTime = d3.timeParse("%Y-%m-%d");
 
     // Load data from miles-walked-this-month.csv
     // var file = "miles-walked-this-month.csv";
@@ -58,12 +56,10 @@ function makeResponsive() {
     }
 
     function handleData(bankData) {
-         // Configure a parseTime function which will return a new Date object from a string
-        var parseTime = d3.timeParse("%Y-%m-%d");
-
-
+        // if the SVG area isn't empty when the browser loads,
         var parsedBankDataDict = {};
         var parsedBankData = [];
+        var parsedBankDataDictDetails = {};
 
         bankData.forEach(function (data) {
 
@@ -71,76 +67,64 @@ function makeResponsive() {
                 data.amounts = +data.amount;
                 if (data.date in parsedBankDataDict) {
                     parsedBankDataDict[data.date] += data.amounts;
+                    parsedBankDataDictDetails[data.date].push({'description': data.description, 'amount': data.amounts})
                 } else {
                     parsedBankDataDict[data.date] = data.amounts;
+                    parsedBankDataDictDetails[data.date] = [{'description': data.description, 'amount': data.amounts}]
                 }
             }
 
         });
-
+        // console.log(parsedBankDataDictDetails);
         Object.keys(parsedBankDataDict).forEach(function (key) {
             parsedBankData.push({
                 'date': parseTime(key),
-                'amount': parsedBankDataDict[key]
+                'amount': parsedBankDataDict[key],
+                'description': parsedBankDataDictDetails[key]
             })
         });
 
         // Configure a time scale with a range between 0 and the chartWidth
         // Set the domain for the xTimeScale function
         // d3.extent returns the an array containing the min and max values for the property specified
-        console.log(parsedBankData);
+        // console.log(parsedBankData);
+
+        // Create scales
         var xTimeScale = d3.scaleTime()
             .range([0, chartWidth])
             .domain(d3.extent(parsedBankData, function (d) {
                 return d.date;
             }));
-
-        // console.log(d3.extent(parsedBankData, data => data.date));
-
-        // Configure a linear scale with a range between the chartHeight and 0
-        // Set the domain for the xLinearScale function
         var yLinearScale = d3.scaleLinear()
             .range([chartHeight, 0])
-            .domain(d3.extent(parsedBankData, function (d) {
-                return d.amount;
-            }));
+            .domain([0, d3.max(parsedBankData, d => d.amount)]);
 
-        // console.log());
-        // Create two new functions passing the scales in as arguments
-        // These will be used to create the chart's axes
-        var bottomAxis = d3.axisBottom(xTimeScale);
-        var leftAxis = d3.axisLeft(yLinearScale);
+        // Create axes
+        var xAxis = d3.axisBottom(xTimeScale);
+        var yAxis = d3.axisLeft(yLinearScale);
+        // Append axes
+        chartGroup.append("g").call(yAxis);
+        chartGroup.append("g").attr("transform", `translate(0, ${chartHeight})`).call(xAxis);
 
-        // Append an SVG group element to the SVG area, create the left axis inside of it
-        chartGroup.append("g")
-            .call(leftAxis);
-
-        // Append an SVG group element to the SVG area, create the bottom axis inside of it
-        // Translate the bottom axis to the bottom of the page
-        chartGroup.append("g")
-            .call(bottomAxis);
-
-        // Configure a drawLine function which will use our scales to plot the line's points
-        var drawLine = d3
-            .line()
+        // Generate line
+        var drawLine = d3.line()
             .x(data => xTimeScale(data.date))
             .y(data => yLinearScale(data.amount));
 
-        // Append an SVG path and plot its points using the line function
+        // Append line
         chartGroup.append("path")
-        // The drawLine function returns the instructions for creating the line for milesData
             .data([parsedBankData])
             .attr("class", "line")
             .attr("d", drawLine);
 
-        // append circles
-        var circlesGroup = chartGroup.selectAll("circle")
+        // Append circles to data points
+        var circlesGroup = chartGroup.selectAll("dot")
             .data(parsedBankData)
             .enter()
             .append("circle")
             .attr("cx", d => xTimeScale(d.date))
             .attr("cy", d => yLinearScale(d.amount))
-            .attr("r", "10")
+            .attr("r", "3")
             .attr("fill", "gold")
             .attr("stroke-width", "1")
             .attr("stroke", "black");
@@ -151,14 +135,13 @@ function makeResponsive() {
         // Step 1: Append tooltip div
         var toolTip = d3.select("body")
             .append("div")
-            .style("display", "none")
             .classed("tooltip", true);
 
         // Step 2: Create "mouseover" event listener to display tooltip
-        circlesGroup.on("mouseover", function (d) {
-            toolTip.style("display", "block")
-                .html(
-                    `<strong>Hello<strong>`)
+        circlesGroup.on("mouseover", function (d, i) {
+            toolTip.style("display", "block");
+            toolTip.html(`<strong>${dateFormatter(parsedBankData[i].date)}</strong>
+                           <br/>$${parsedBankData[i].amount}<br/>${parsedBankData[i].description[0].description}`)
                 .style("left", d3.event.pageX + "px")
                 .style("top", d3.event.pageY + "px");
         })

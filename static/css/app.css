@@ -9,14 +9,14 @@
 }
 
 .tooltip {
+  opacity: .9; <!-- overwrite bootstrap -->
   position: absolute;
-  width: 80px;
-  height: 50px;
-  padding: 10px;
+  width: 100px;
+  height: 30px;
+  padding: 2px;
   font: 12px sans-serif;
-  text-align: center;
-  color: black;
-  background: blue;
+  text-align: left;
+  background: lightsteelblue;
   border: 0;
-  border-radius: 10px;
+  border-radius: 8px;
 }
