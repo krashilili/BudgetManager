@@ -75,3 +75,6 @@ class BankStatement(models.Model):
 
     def __unicode__(self):
         return f"{self.owner}: {self.bank_name}- {self.statement_source}"
+
+    def __str__(self):
+        return self.description
