@@ -17,9 +17,11 @@ from datetime import datetime as dt
 
 def find_category_of_transaction(trans_des):
     obj = BankStatement.objects.filter(description=trans_des).first()
-    if obj.category:
-        return obj.category
-    return None
+    try:
+        if obj.category:
+            return obj.category
+    except:
+        return None
 
 
 def handle_bank_statement(f, resource_instance, doc_instance):
@@ -44,7 +46,7 @@ def handle_bank_statement(f, resource_instance, doc_instance):
                                df.columns[2]: 'amount'},
                       inplace=True)
             # Convert the date format to 'YYYY-MM-DD'
-            df['date'] = df['date'].str.split(' ')[0][0]
+            df['date'] = df['date'].apply(lambda d: d.split(' ')[0])
             df = df.rename(columns={df.columns[0]: 'date', df.columns[1]: 'description', df.columns[2]: 'amount'})
             df['date'] = df['date'].apply(lambda d: dt.strptime(d, "%m/%d/%Y")).apply(
                 lambda d: d.strftime('%Y-%m-%d'))
