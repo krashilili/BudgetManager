@@ -50,14 +50,22 @@ class BankStatementDetailView(generics.RetrieveUpdateDestroyAPIView):
     def get(self, request, *args, **kwargs):
         try:
             # query the bank statements by transaction date
-            trans_date = dt.datetime.strptime(kwargs['date'],'%Y-%m-%d')
             # qet the bank name
             bank = kwargs.get('bank_name')
+            date = kwargs.get('date')
             bs = None
-            if trans_date and not bank:
-                bs = BankStatement.objects.filter(date=trans_date)
-            elif bank and trans_date:
-                bs = BankStatement.objects.filter(date=trans_date, bank_name=bank)
+            if date:
+                if date.lower() == 'all' and bank:
+                    bs = BankStatement.objects.filter(bank_name=bank)
+                elif bank:
+                    trans_date = dt.datetime.strptime(date,'%Y-%m-%d')
+                    bs = BankStatement.objects.filter(date=trans_date, bank_name=bank)
+                elif not bank:
+                    trans_date = dt.datetime.strptime(date, '%Y-%m-%d')
+                    bs = BankStatement.objects.filter(date=trans_date)
+            else:
+                bs = BankStatement.objects.filter()
+
             return Response(BankStatementSerializer(bs, many=True).data)
         except BankStatement.DoesNotExist:
             return Response(

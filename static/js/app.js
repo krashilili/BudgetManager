@@ -1,13 +1,19 @@
 // When the browser window is resized, makeResponsive() is called.
-d3.select(window).on("resize", makeResponsive);
+// d3.select(window).on("resize", makeResponsive);
 
-// When the browser loads, makeResponsive() is called.
-makeResponsive();
+function changeBank() {
+    var selBank = document.getElementById("selBank");
+    var bank = selBank.value;
+    console.log(bank);
+    // When the browser loads, makeResponsive() is called.
+    makeResponsive(bank);
+}
+
 
 
 // The code for the chart is wrapped inside a function that
 // automatically resizes the chart
-function makeResponsive() {
+function makeResponsive(bankName) {
     // remove it and replace it with a resized version of the chart
     var svgArea = d3.select("body").select("svg");
 
@@ -48,7 +54,12 @@ function makeResponsive() {
     // Load data from miles-walked-this-month.csv
     // var file = "miles-walked-this-month.csv";
     // d3.csv(file).then(successHandle, errorHandle);
-    d3.json('/api/bs/?format=json').then(handleData, errorHandle);
+    if(bankName === 'All'){
+        d3.json(`/api/bs/?format=json`).then(handleData, errorHandle);
+    }else{
+        d3.json(`/api/bs/all/${bankName}?format=json`).then(handleData, errorHandle);
+    }
+
 
     // Throw an error if one occurs
     function errorHandle(error) {
@@ -59,6 +70,7 @@ function makeResponsive() {
         // if the SVG area isn't empty when the browser loads,
         var parsedBankDataDict = {};
         var parsedBankData = [];
+        var parsedBanksData = {};
         var parsedBankDataDictDetails = {};
 
         bankData.forEach(function (data) {
@@ -141,9 +153,9 @@ function makeResponsive() {
         circlesGroup.on("mouseover", function (d, i) {
             toolTip.style("display", "block");
             toolTip.html(`<strong>${dateFormatter(parsedBankData[i].date)}</strong>
-                           <br/>$${parsedBankData[i].amount}<br/>${parsedBankData[i].description[0].description}`)
+                           <br/>$${parsedBankData[i].amount.toFixed(2)}<br/>${parsedBankData[i].description[0].description}`)
                 .style("left", d3.event.pageX + "px")
-                .style("top", d3.event.pageY + "px");
+                .style("top", d3.event.pageY*1.03 + "px");
         })
         // Step 3: Create "mouseout" event listener to hide tooltip
             .on("mouseout", function () {
