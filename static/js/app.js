@@ -55,7 +55,7 @@ function makeResponsive(bankName) {
     // var file = "miles-walked-this-month.csv";
     // d3.csv(file).then(successHandle, errorHandle);
     if(bankName === 'All'){
-        d3.json(`/api/bs/?format=json`).then(handleData, errorHandle);
+        d3.json(`/api/bs/all/?format=json`).then(handleData, errorHandle);
     }else{
         d3.json(`/api/bs/all/${bankName}?format=json`).then(handleData, errorHandle);
     }
@@ -66,11 +66,23 @@ function makeResponsive(bankName) {
         throw error;
     }
 
+    function compareDate(a, b){
+        comparison = 0;
+
+        if (a.date > b.date) {
+            comparison = 1;
+        } else if (b.date > a.date) {
+            comparison = -1;
+        }
+
+        return comparison;
+    }
+
+
     function handleData(bankData) {
         // if the SVG area isn't empty when the browser loads,
         var parsedBankDataDict = {};
         var parsedBankData = [];
-        var parsedBanksData = {};
         var parsedBankDataDictDetails = {};
 
         bankData.forEach(function (data) {
@@ -95,7 +107,9 @@ function makeResponsive(bankName) {
                 'description': parsedBankDataDictDetails[key]
             })
         });
+        parsedBankData.sort(compareDate);
 
+        console.log(parsedBankData);
         // Configure a time scale with a range between 0 and the chartWidth
         // Set the domain for the xTimeScale function
         // d3.extent returns the an array containing the min and max values for the property specified
@@ -138,7 +152,7 @@ function makeResponsive(bankName) {
             .attr("cy", d => yLinearScale(d.amount))
             .attr("r", "3")
             .attr("fill", "gold")
-            .attr("stroke-width", "1")
+            .attr("stroke-width", ".8")
             .attr("stroke", "black");
 
         // date formatter to display dates nicely

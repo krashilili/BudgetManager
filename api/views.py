@@ -57,6 +57,8 @@ class BankStatementDetailView(generics.RetrieveUpdateDestroyAPIView):
             if date:
                 if date.lower() == 'all' and bank:
                     bs = BankStatement.objects.filter(bank_name=bank)
+                elif date.lower() == 'all'and not bank:
+                    bs = BankStatement.objects.filter()
                 elif bank:
                     trans_date = dt.datetime.strptime(date,'%Y-%m-%d')
                     bs = BankStatement.objects.filter(date=trans_date, bank_name=bank)
