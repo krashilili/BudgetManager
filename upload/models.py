@@ -43,13 +43,13 @@ class BankStatement(models.Model):
     """
     The field name shall be the same as the column names in the uploaded csv files.
     """
-    owner = models.CharField(max_length=30, null=True)
-    bank_name = models.CharField(max_length=30,null=True)
-    date = models.DateField('Trans. Date', max_length=30, null=True)
-    post = models.CharField('Post Date', max_length=30)
-    description = models.CharField('Description',max_length=255)
-    amount = models.CharField('Amount', max_length=30)
-    category = models.CharField('Category',max_length=30)
+    owner = models.CharField(max_length=30, null=True,verbose_name='Owner')
+    bank_name = models.CharField(max_length=30,null=True,verbose_name='Bank')
+    date = models.DateField(verbose_name='Trans. Date', max_length=30, null=True)
+    post = models.CharField(verbose_name='Post Date', max_length=30)
+    description = models.CharField(verbose_name='Description',max_length=255)
+    amount = models.CharField(verbose_name='Amount', max_length=30)
+    category = models.CharField(verbose_name='Category',max_length=30)
     statement_source = models.CharField(max_length=200,null=True)
     slug = models.SlugField(max_length=63, unique=True)
 

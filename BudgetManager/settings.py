@@ -40,8 +40,10 @@ INSTALLED_APPS = [
     # user apps
     'import_export',
     'rest_framework',
+    'django_tables2',
     'upload',
     'api',
+    'analysis',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +73,8 @@ TEMPLATES = [
         },
     },
 ]
+
+DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap4.html"
 
 WSGI_APPLICATION = 'BudgetManager.wsgi.application'
 

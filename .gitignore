@@ -1,9 +1,14 @@
 media/
 .idea/
 db.sqlite3
+*.sqlite
 .csv
 upload/__pycache__/*
 upload/migrations/__pycache__/*
 BudgetManager/__pycache__/*
 api/__pycache__/*
+api/migrations/__pycache__/*
+analysis/__pycache__/*
+analysis/migrations/__pycache__/*
 BudgetManager/__pycache__/settings.cpython-36.pyc
+.venv
