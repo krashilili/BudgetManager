@@ -10,18 +10,19 @@ from .models import BankStatementDocument, BankStatement
 from tablib import Dataset
 from .resources import BankStatementResource
 from import_export import resources
-import pandas as pd
+import pandas as pd, sqlite3
 from io import StringIO
 from datetime import datetime as dt
 
+con = sqlite3.connect("categories.sqlite")
+table_name = 'categories'
+categories_df = pd.read_sql(f"SELECT * FROM {table_name}", con, index_col=None)
+des_to_categories = dict(zip(categories_df.Description, categories_df.Category))
+
 
 def find_category_of_transaction(trans_des):
-    obj = BankStatement.objects.filter(description=trans_des).first()
-    try:
-        if obj.category:
-            return obj.category
-    except:
-        return None
+    trans_des_7 = trans_des[:7]
+    return des_to_categories.get(trans_des_7)
 
 
 def handle_bank_statement(f, resource_instance, doc_instance):
