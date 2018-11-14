@@ -33,21 +33,22 @@
     {% block content %}
     {% endblock %}
 </div>
-<div class="chart">
-    <select id="selBank">
-        <option value="Discover">Discover</option>
-        <option value="American Express">American Express</option>
-        <option value="Wells Fargo">Wells Fargo</option>
-        <option value="Citi">Citi Advantage</option>
-        <option value="All">All</option>
-    </select>
-    <input type="button"
-           value="change bank"
-           onclick="changeBank()"/>
-</div>
-<script src="{% static 'js/app.js' %}"></script>
-<script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+{#<div class="chart">#}
+{#    <select id="selBank">#}
+{#        <option value="Discover">Discover</option>#}
+{#        <option value="American Express">American Express</option>#}
+{#        <option value="Wells Fargo">Wells Fargo</option>#}
+{#        <option value="Citi">Citi Advantage</option>#}
+{#        <option value="All">All</option>#}
+{#    </select>#}
+{#    <input type="button"#}
+{#           value="change bank"#}
+{#           onclick="changeBank()"/>#}
+{#</div>#}
+{#<script src="{% static 'js/app.js' %}"></script>#}
+{#<script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>#}
+{#<script src="{% static 'js/bootstrap.min.js' %}"></script>#}
 {% block javascript %}
 {% endblock %}
 </body>
