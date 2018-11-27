@@ -1,5 +1,140 @@
 {% extends parent_template|default:"base.html" %}
+
+{% block content %}
+
+    {% load static %}
+    <link href="{% static 'analysis/css/dashboard.css' %}" rel="stylesheet">
+    <link href="{% static 'analysis/css/app.css' %}" rel="stylesheet">
+
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="chart-wrapper">
+                    <div class="chart-title">
+                        Cell Title
+                    </div>
+                    <div class="chart-stage">
+                        <div id="spend-line">
+                            {#              <img data-src="holder.js/100%x240/white/text:#grid-1-1">#}
+                        </div>
+                    </div>
+                    <div class="chart-notes">
+                        Notes about this chart
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="chart-wrapper">
+                    <div class="chart-title">
+                        Cell Title
+                    </div>
+                    <div class="chart-stage" id="spend-bar">
+                        <img data-src="holder.js/100%x240/white">
+                    </div>
+                    <div class="chart-notes">
+                        Notes about this chart
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6 col-md-4">
+                <div class="chart-wrapper">
+                    <div class="chart-title">
+                        Cell Title
+                    </div>
+                    <div class="chart-stage">
+                        <img data-src="holder.js/100%x120/white">
+                    </div>
+                    <div class="chart-notes">
+                        Notes about this chart
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="chart-wrapper">
+                    <div class="chart-title">
+                        Cell Title
+                    </div>
+                    <div class="chart-stage">
+                        <img data-src="holder.js/100%x120/white">
+                    </div>
+                    <div class="chart-notes">
+                        Notes about this chart
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="chart-wrapper">
+                    <div class="chart-title">
+                        Cell Title
+                    </div>
+                    <div class="chart-stage">
+                        <img data-src="holder.js/100%x120/white">
+                    </div>
+                    <div class="chart-notes">
+                        Notes about this chart
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="chart-wrapper">
+                    <div class="chart-title">
+                        Cell Title
+                    </div>
+                    <div class="chart-stage">
+                        <img data-src="holder.js/100%x120/white">
+                    </div>
+                    <div class="chart-notes">
+                        Notes about this chart
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="chart-wrapper">
+                    <div class="chart-title">
+                        Cell Title
+                    </div>
+                    <div class="chart-stage">
+                        <img data-src="holder.js/100%x120/white">
+                    </div>
+                    <div class="chart-notes">
+                        Notes about this chart
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="chart-wrapper">
+                    <div class="chart-title">
+                        Cell Title
+                    </div>
+                    <div class="chart-stage">
+                        <img data-src="holder.js/100%x120/white">
+                    </div>
+                    <div class="chart-notes">
+                        Notes about this chart
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container-fluid">
+        <p class="small text-muted">Built with &#9829; by <a href="https://keen.io">Keen IO</a></p>
+    </div>
+
+    <!-- Project Analytics -->
+    {#  <script type="text/javascript" src="../../assets/js/keen-analytics.js"></script>#}
+
+{% endblock %}
 {% block javascript %}
     {% load static %}
     <script src="{% static 'analysis/js/category_bar.js' %}"></script>
+{#    <script src="{% static 'analysis/js/app.js' %}"></script>#}
+
 {% endblock %}
+

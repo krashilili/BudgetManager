@@ -14,8 +14,9 @@ function changeBank() {
 // The code for the chart is wrapped inside a function that
 // automatically resizes the chart
 function makeResponsive(bankName) {
+    bankName = 'Wells Fargo';
     // remove it and replace it with a resized version of the chart
-    var svgArea = d3.select("body").select("svg");
+    var svgArea = d3.select("#spend-line").select("svg");
 
     // clear svg is not empty
     if (!svgArea.empty()) {
