@@ -1,1 +1,1 @@
-# BudgetManager
+# FinanceAssistant
